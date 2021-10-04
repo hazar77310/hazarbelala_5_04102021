@@ -10,28 +10,40 @@ if(produitEnregistreDansLocalStorage) {
     const element = document.querySelector("#cart__items");
     console.log(element);
 
-    //Si le panier n'est pas vide , afficher les produits dans le local storage
-    let produitpanier = [];
-    for ( j = 0; j < produitEnregistreDansLocalStorage.length; j++) {
-        produitpanier = produitpanier + 
-            `<div class = "recapitulatif-panier">
-                <div>Nom : ${produitEnregistreDansLocalStorage[j].nom} - Couleur : ${produitEnregistreDansLocalStorage[j].couleur} - Quantité : ${produitEnregistreDansLocalStorage[j].quantity} </div>  
-                <div>${produitEnregistreDansLocalStorage[j].prix/100 + "€"}
-            </div>`;
+    let total = 0;
 
-            if (j === produitEnregistreDansLocalStorage.length) {
-                //injection html dans la page panier
-                element.innerHTML = produitpanier;
-            } 
+    //si le panier est vide : afficher le panier vide
+    if (produitEnregistreDansLocalStorage === null || produitEnregistreDansLocalStorage == 0 ) {
+    console.log("je suis vide");
+        const paniervide = 
+            `<div id="panier-vide">
+                <div>Le panier est vide</div>  
+            </div>`;
+        element.innerHTML = paniervide;
+    }else {
+        //Si le panier n'est pas vide , afficher les produits dans le local storage
+        let produitpanier = [];
+        for ( j = 0; j < produitEnregistreDansLocalStorage.length; j++) {
+            produitpanier = produitpanier + 
+                `<div class = "recapitulatif-panier">
+                    <div>Nom : ${produitEnregistreDansLocalStorage[j].nom} - Couleur : ${produitEnregistreDansLocalStorage[j].couleur} - Quantité : ${produitEnregistreDansLocalStorage[j].quantity} </div>  
+                    <div>${produitEnregistreDansLocalStorage[j].prix/100 + "€"}
+                </div>`
+        }
+        if (j === produitEnregistreDansLocalStorage.length) {
+            //injection html dans la page panier
+            element.innerHTML = produitpanier;
+        } 
 
     }
 
-    //******************Gestion du bouton supprimer l'article*****************//
 
+
+    //******************Gestion du bouton supprimer l'article*****************//
+    //Création du bouton supprimer
+    let article = document.getElementById("deleteItem")
 
     for (let k = 0; k < article.length; k++) {
-        //Création du bouton supprimer
-         let article = document.getElementById("order")
         article[k].addEventListener("click", (event) => {
             event.preventDefault();
 
@@ -54,40 +66,32 @@ if(produitEnregistreDansLocalStorage) {
     //Déclaration de la variable pour pouvoir y mettre les prix qui sont présents dans le panier
     let calculprix = [];
 
-    //Aller chercher les prix dans le panier
-    for  (let l = 0; l < produitEnregistreDansLocalStorage.length; l++) {
+        //Aller chercher les prix dans le panier
+        for  (let l = 0; l < produitEnregistreDansLocalStorage.length; l++) {
+            let prixpanier = produitEnregistreDansLocalStorage[l].prix;
+            console.log(prixpanier);
 
-        //conversion du prix et quantité en string
-        //ParseInt analyse et convertit une chaine de caractères en un entier
-        let prixpanier = parseInt(produitEnregistreDansLocalStorage[l].prix/100);
-        console.log(produitEnregistreDansLocalStorage[l].prix/100);
-
-        let qte = parseInt(produitEnregistreDansLocalStorage[l].quantity)
-        console.log(produitEnregistreDansLocalStorage[l].quantity)
-
-        //calcul du mettre le prix en fonction de la quantité
-        let prixqte = qte*prixpanier;
-        console.log(prixqte)
-
-        //mettre les prix du panier dans la variable "calculprix"
-        calculprix.push(prixqte);
-        console.log(calculprix);
+            //mettre les prix du panier dans la variable "calculprix"
+            calculprix.push(prixpanier);
+            console.log(calculprix);
 
     
 
-        //Additionner les prix dans le tableau de la variable
-        const reducer = (accumulator , currentValue) => accumulator + currentValue;
-        console.log(reducer);
+            //Additionner les prix dans le tableau de la variable
+            const reducer = (accumulator , currentValue) => accumulator + currentValue;
+            console.log(reducer);
+            total = calculprix.reduce(reducer);
+            console.log(total);
 
-        const total = calculprix.reduce(reducer);
-        console.log(total);
-    }
-    //Le code HTML du prix total à afficher
-    const prixHTML = ` <div class="cart__price">
-        <p>Total <span id="totalQuantity"><!-- 2 --></span> : <span id="totalPrice">${total + "€"}</span></p></div>`
+        }
 
-    //injection html dans la page panier
-    element.insertAdjacentHTML("beforeend", prixHTML );
+        let  prixHTML = document.getElementById("totalPrice")
+        console.log(prixHTML);
+
+        //Le code HTML du prix total à afficher
+        prixHTML.textContent = `Total : ${total/100 + " €"} `
+
+ 
 
     
 
@@ -133,20 +137,6 @@ if(produitEnregistreDansLocalStorage) {
 
 
 
-        const form = {
-            contact: {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            address: address.value,
-            city: city.value,
-            email: email.value,
-    
-            },
-            product : productorder
-
-        }
-
-        console.log(form)
 
 
     }else {
