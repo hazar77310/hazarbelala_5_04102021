@@ -12,55 +12,35 @@ if(produitEnregistreDansLocalStorage) {
 
     let total = 0;
 
-    //si le panier est vide : afficher le panier vide
-    if (produitEnregistreDansLocalStorage === null || produitEnregistreDansLocalStorage == 0 ) {
-    console.log("je suis vide");
-        const paniervide = 
-            `<div id="panier-vide">
-                <div>Le panier est vide</div>  
-            </div>`;
-        element.innerHTML = paniervide;
-    }else {
-        //Si le panier n'est pas vide , afficher les produits dans le local storage
-        let produitpanier = [];
-        for ( j = 0; j < produitEnregistreDansLocalStorage.length; j++) {
-            produitpanier = produitpanier + 
-                `<div class = "recapitulatif-panier">
-                    <div>Nom : ${produitEnregistreDansLocalStorage[j].nom} - Couleur : ${produitEnregistreDansLocalStorage[j].couleur} - Quantité : ${produitEnregistreDansLocalStorage[j].quantity} </div>  
-                    <div>${produitEnregistreDansLocalStorage[j].prix/100 + "€"}
+    //Si le panier n'est pas vide , afficher les produits dans le local storage
+    let produitpanier = [];
+    for ( j = 0; j < produitEnregistreDansLocalStorage.length; j++) {
+        produitpanier = produitpanier + 
+            `<div class="cart__item__content">
+                  <div class="cart__item__content__titlePrice">
+                    <h2>${produitEnregistreDansLocalStorage[j].nom}</h2>
+                    <p id="price">${produitEnregistreDansLocalStorage[j].prix / 100 + "€"}</p>
+                  </div>
+                  <div class="cart__item__content__settings"> Couleur : ${produitEnregistreDansLocalStorage[j].couleur}
+                    <div class="cart__item__content__settings__quantity">
+                      <p>Qté : </p>
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="1">
+                    </div>
+                    <div class="cart__item__content__settings__delete">
+                      <button id="deleteItem">Supprimer</button>
+                    </div>
+                  </div>
                 </div>`
-        }
-        if (j === produitEnregistreDansLocalStorage.length) {
+
+        console.log(produitpanier)
+
+        j === produitEnregistreDansLocalStorage.length
             //injection html dans la page panier
-            element.innerHTML = produitpanier;
-        } 
+            element.innerHTML = produitpanier; 
 
     }
 
-
-
-    //******************Gestion du bouton supprimer l'article*****************//
-    //Création du bouton supprimer
-    let article = document.getElementById("deleteItem")
-
-    for (let k = 0; k < article.length; k++) {
-        article[k].addEventListener("click", (event) => {
-            event.preventDefault();
-
-            //Sélection de l'id du produit qui va être supprimé en cliquant sur le bouton
-            let id_supprimer = produitEnregistreDansLocalStorage[k]._id;
-            console.log(article);
-
-            //on envoie la variable dans le local storage
-            //On transforme la variable au format JSON dans la key "produit" du local storage
-            localStorage.setItem("#produit" , JSON.stringify(produitEnregistreDansLocalStorage))
-
-            //alert pour indiquer que le produit a bien été supprimé
-            alert("Ce produit a bien été supprimé du panier")
-
-
-        })
-    }
+    
 
     //******************Montant total du panier*****************//
     //Déclaration de la variable pour pouvoir y mettre les prix qui sont présents dans le panier
