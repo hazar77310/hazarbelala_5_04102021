@@ -41,8 +41,8 @@ if(produitEnregistreDansLocalStorage) {
 
         console.log(produitpanier)
 
-            //injection html dans la page panier
-            element.appendChild(produitpanier) 
+        //injection html dans la page panier
+        element.appendChild(produitpanier) 
 
    
     }
