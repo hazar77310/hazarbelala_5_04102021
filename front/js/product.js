@@ -12,10 +12,15 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
     .then((kanap) => {
 
         //********************RECHERCHE DOM ******************//
-        document.querySelector("#item_image").src = kanap.imageUrl //Toutes ces variables changent (teddie -> teddy, puisqu'on fait réf à notre objet reçu)
-        document.querySelector("#item_image").alt = kanap.name
+        let image = kanap.imageUrl;
+        document.querySelector(".item__img").src = image;
+        let imagealt = kanap.altTxt;
+        document.querySelector(".item__img").alt = imagealt;
         document.querySelector("#title").innerText = kanap.name
         document.querySelector("#description").innerText = kanap.description
+
+        console.log(kanap.imageUrl)
+
 
         const select = document.querySelector("#colors")
         console.log(kanap.colors)
@@ -28,10 +33,8 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
         }
 
 
-        const docprix = document.querySelector("#price") 
-            kanaprix = 
-                `<p>Prix : <span id="price">${kanap.price/100  + "€"}</span></p>`
-                docprix.innerHTML = kanaprix;
+        let price = kanap.price / 100;
+        document.querySelector("#price").innerHTML = price;
 
         //********************FIN RECHERCHE D0M ******************//
 
@@ -60,7 +63,9 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
                     couleur: select.value,
                     prix: kanap.price,
                     quantity: qtyButton.value, //...pour récuperer la valeur de la quantité ici
+                    imageUrl : image,
                 }
+                console.log(optionsProduit)
 
             if (produitEnregistreDansLocalStorage) {
                 produitEnregistreDansLocalStorage.push(optionsProduit);
