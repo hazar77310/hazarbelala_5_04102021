@@ -54,7 +54,7 @@
                 </div>
                 <div class="cart__item__content">
                   <div class="cart__item__content__titlePrice">
-                    <h2>Nom du produit</h2>
+                    <h2 id="name"> </h2>
                     <p id="price"></p>
                   </div>
                   <div class="cart__item__content__settings">
@@ -63,7 +63,10 @@
                       <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
                     </div>
                     <div class="cart__item__content__settings__delete">
-                      <button id="deleteItem">Supprimer</button>
+                      <button id="deleteItem"></button>
+                    </div>
+                    <div class="cart__item__content__settings__deleteall">
+                      <button id="deletebasket">Vider le panier</button>
                     </div>
                   </div>
                 </div>
@@ -100,7 +103,9 @@
                   <p id="emailErrorMsg"></p>
                 </div>
                 <div class="cart__order__form__submit">
-                  <input type="submit" value="Valider le panier" id="order">
+                  <a href="confirmation.html">
+                    <button id="order" >Valider le panier</button>
+                  </a>
                 </div>
               </form>
             </div>

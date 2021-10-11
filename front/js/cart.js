@@ -3,6 +3,7 @@ let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem("produit
 //***JSON.parse c'est pour convertir les données au format JSON qui sont dans le local storage en objet JavaScript
 console.log(produitEnregistreDansLocalStorage);
 
+
 if(produitEnregistreDansLocalStorage) {
 
     //***************AFFICHAGE DES PRODUITS DU PANIER***********************//
@@ -15,30 +16,49 @@ if(produitEnregistreDansLocalStorage) {
     //Si le panier n'est pas vide , afficher les produits dans le local storage
     let produitpanier = [];
     for ( j = 0; j < produitEnregistreDansLocalStorage.length; j++) {
-        produitpanier = produitpanier + 
-            `<div class="cart__item__content">
-                  <div class="cart__item__content__titlePrice">
-                    <h2>${produitEnregistreDansLocalStorage[j].nom}</h2>
-                    <p id="price">${produitEnregistreDansLocalStorage[j].prix / 100 + "€"}</p>
-                  </div>
-                  <div class="cart__item__content__settings"> Couleur : ${produitEnregistreDansLocalStorage[j].couleur}
-                    <div class="cart__item__content__settings__quantity">
-                      <p>Qté : </p>
-                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="1">
-                    </div>
-                    <div class="cart__item__content__settings__delete">
-                      <button id="deleteItem">Supprimer</button>
-                    </div>
-                  </div>
-                </div>`
+        produitpanier =  
+            `<table width = "50%", border 3px >
+             <thead>
+            <tr><th>NOM</th><th>COULEUR</th><th>QUANTITE</th><th>PRIX</th></tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>${produitEnregistreDansLocalStorage[j].nom}</td>
+                <td>${produitEnregistreDansLocalStorage[j].couleur}</td>
+                <td><input id="tdInputNumber" type="number" value="${produitEnregistreDansLocalStorage[j].quantity}" min="1" onchange="updateQuantity('${produitEnregistreDansLocalStorage[j].idProduit}', this.value)"></td>>
+                <td>${produitEnregistreDansLocalStorage[j].prix/100}€</td>
+                <td><button onclick="deletelign('${produitEnregistreDansLocalStorage[j].idProduit}')">&#x274C;</button></td>
+            </tr>
+            </tbody>
+            </table>`
 
         console.log(produitpanier)
 
-        j === produitEnregistreDansLocalStorage.length
             //injection html dans la page panier
             element.innerHTML = produitpanier; 
-
     }
+
+   // deletelign = () =>{
+
+ //       if (!localStorage.getItem('#produit')){
+ //           return 
+ //       }
+//    let shoppingCart = JSON.parse(localStorage.getItem('#produit'));
+ //   for (let n=0 ; n < shoppingCart.length ; n++){  
+ //   document.querySelector("#deletetem").addEventListener('click', () =>{   
+ //       shoppingCart.splice(n, 1);
+ //       localStorage.setItem(`produit`, JSON.stringify(produit));
+  //      document.location.reload(true);
+ //   console.log(shoppingCart)   
+  //  })
+    
+  //  }
+  //  }
+
+
+ //   deletelign()
+
+
 
     
 
@@ -72,7 +92,13 @@ if(produitEnregistreDansLocalStorage) {
         prixHTML.textContent = `Total : ${total/100 + " €"} `
 
  
-
+        //Fonction qui modifie la quantité directement sur la page du panier et mets à jour le prixTotal
+    function updateQuantity(idProduit, valueQuantity){
+    json[idProduit].quantity = valueQuantity
+    json[idProduit].priceTotal = json[idProduit].quantity * json[idProduit].price
+    document.getElementById(`Total-${json[idProduit]._id}`).innerHTML = `${json[idProduit].total / 100} €`
+    localStorage.setItem("cart", JSON.stringify(json))
+}
     
 
 
@@ -86,7 +112,12 @@ if(produitEnregistreDansLocalStorage) {
     // le tableau contiendra un tableau d'objet qui sont les produits acheté, et order contiendra ce tableau ainsi que l'objet qui contient les infos de l'acheteur
     let productorder = [];
     for (let m = 0; m <produitEnregistreDansLocalStorage.length ; m++) {
-        productorder.push(produitEnregistreDansLocalStorage[m].idConfig)
+        productorder.push(produitEnregistreDansLocalStorage[m].idProduit)
+        productorder.push(produitEnregistreDansLocalStorage[m].nom)
+        productorder.push(produitEnregistreDansLocalStorage[m].couleur)
+        productorder.push(produitEnregistreDansLocalStorage[m].quantity)
+        productorder.push(produitEnregistreDansLocalStorage[m].prix)
+  
     };
     console.log(productorder)
 
@@ -103,6 +134,7 @@ if(produitEnregistreDansLocalStorage) {
 
     }
     console.log(form)
+
 
     let regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let regexCodePostal = /[0-9]/;
@@ -193,7 +225,8 @@ if(produitEnregistreDansLocalStorage) {
 
 
 } else {
-//si le panier est vide : afficher le panier vide
+    produitEnregistreDansLocalStorage === null || produitEnregistreDansLocalStorage == 0 
+    //si le panier est vide : afficher le panier vide
     console.log("je suis vide");
     const paniervide = 
         `<div id="panier-vide">
@@ -201,10 +234,8 @@ if(produitEnregistreDansLocalStorage) {
         </div>`;
         element.innerHTML = paniervide;
 
-    //Création du bouton vider le panier
-    let viderButton = document.createElement("button");
-    let article = document.getElementById("artAndFormContainer")
-    viderButton.textContent = "vider le panier";
-    article.appendChild(viderButton);
+    console.log(paniervide)
+
+
     
 }
