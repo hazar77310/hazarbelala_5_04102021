@@ -17,45 +17,35 @@ if(produitEnregistreDansLocalStorage) {
     let produitpanier = [];
     for ( j = 0; j < produitEnregistreDansLocalStorage.length; j++) {
         produitpanier =  
-            `<table width = "50%", border 3px >
-             <thead>
-            <tr><th>NOM</th><th>COULEUR</th><th>QUANTITE</th><th>PRIX</th></tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>${produitEnregistreDansLocalStorage[j].nom}</td>
-                <td>${produitEnregistreDansLocalStorage[j].couleur}</td>
-                <td><input id="tdInputNumber" type="number" value="${produitEnregistreDansLocalStorage[j].quantity}" min="1" onchange="updateQuantity('${produitEnregistreDansLocalStorage[j].idProduit}', this.value)"></td>>
-                <td>${produitEnregistreDansLocalStorage[j].prix/100}€</td>
-                <td><button onclick="deletelign('${produitEnregistreDansLocalStorage[j].idProduit}')">&#x274C;</button></td>
-            </tr>
-            </table>`
+            ` <article class="cart__item" data-id=">${produitEnregistreDansLocalStorage[j].idProduit}">
+                <div class="cart__item__img">
+                  <img src="${produitEnregistreDansLocalStorage[j].imageUrl}" alt="${produitEnregistreDansLocalStorage[j].imagealt}">
+                </div>
+                <div class="cart__item__content">
+                  <div class="cart__item__content__titlePrice">
+                    <h2>${produitEnregistreDansLocalStorage[j].nom}</h2>
+                    <p>${produitEnregistreDansLocalStorage[j].prix/100 + "€"}</p>
+                  </div>
+                  <div class="cart__item__content__settings">
+                    <div class="cart__item__content__settings__quantity">
+                      <p>Qté : </p>
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${produitEnregistreDansLocalStorage[j].quantity}">
+                    </div>
+                    <div class="cart__item__content__settings__delete">
+                      <p class="deleteItem">Supprimer</p>
+                    </div>
+                  </div>
+                </div>
+            </article>`
+
 
         console.log(produitpanier)
 
             //injection html dans la page panier
-            element.innerHTML += produitpanier; 
+            element.appendChild(produitpanier) 
+
+   
     }
-
-   // deletelign = () =>{
-
- //       if (!localStorage.getItem('#produit')){
- //           return 
- //       }
-//    let shoppingCart = JSON.parse(localStorage.getItem('#produit'));
- //   for (let n=0 ; n < shoppingCart.length ; n++){  
- //   document.querySelector("#deletetem").addEventListener('click', () =>{   
- //       shoppingCart.splice(n, 1);
- //       localStorage.setItem(`produit`, JSON.stringify(produit));
-  //      document.location.reload(true);
- //   console.log(shoppingCart)   
-  //  })
-    
-  //  }
-  //  }
-
-
- //   deletelign()
 
 
 
