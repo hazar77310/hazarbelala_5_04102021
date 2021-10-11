@@ -29,7 +29,6 @@ if(produitEnregistreDansLocalStorage) {
                 <td>${produitEnregistreDansLocalStorage[j].prix/100}€</td>
                 <td><button onclick="deletelign('${produitEnregistreDansLocalStorage[j].idProduit}')">&#x274C;</button></td>
             </tr>
-            </tbody>
             </table>`
 
         console.log(produitpanier)
