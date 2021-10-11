@@ -35,7 +35,7 @@ if(produitEnregistreDansLocalStorage) {
         console.log(produitpanier)
 
             //injection html dans la page panier
-            element.innerHTML = produitpanier; 
+            element.innerHTML += produitpanier; 
     }
 
    // deletelign = () =>{
