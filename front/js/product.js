@@ -14,12 +14,15 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
         //********************RECHERCHE DOM ******************//
         let imageUrl = kanap.imageUrl;
         document.querySelector(".item__img").src = imageUrl;
-        let imagealt = kanap.altTxt;
-        document.querySelector(".item__img").alt = imagealt;
+        imageUrl.innerHTML+= ` <div class="item__img">
+              <img src="${kanap.imageUrl}" alt="${kanap.altTxt}"> 
+            </div>`
+        let alt = kanap.altTxt;
+        document.querySelector(".item__img").alt = alt;
         document.querySelector("#title").innerText = kanap.name
         document.querySelector("#description").innerText = kanap.description
 
-        console.log(kanap.imageUrl)
+        console.log(imageUrl)
 
 
         const select = document.querySelector("#colors")
@@ -64,7 +67,7 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
                     prix: kanap.price,
                     quantity: qtyButton.value, //...pour récuperer la valeur de la quantité ici
                     image : imageUrl,
-                    alt = imagealt,
+                    alt,
                 }
                 console.log(optionsProduit)
 

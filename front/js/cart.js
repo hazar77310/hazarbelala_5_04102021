@@ -15,11 +15,12 @@ if(produitEnregistreDansLocalStorage) {
 
     //Si le panier n'est pas vide , afficher les produits dans le local storage
     let produitpanier = [];
+    let panier = [];
     for ( j = 0; j < produitEnregistreDansLocalStorage.length; j++) {
         produitpanier =  
-            ` <article class="cart__item" data-id=">${produitEnregistreDansLocalStorage[j].idProduit}">
+            ` <article class="cart__item" data-id="${produitEnregistreDansLocalStorage[j].idProduit}">
                 <div class="cart__item__img">
-                  <img src="${produitEnregistreDansLocalStorage[j].imageUrl}" alt="${produitEnregistreDansLocalStorage[j].imagealt}">
+                  <img src="${produitEnregistreDansLocalStorage[j].image}" alt="${produitEnregistreDansLocalStorage[j].alt}">
                 </div>
                 <div class="cart__item__content">
                   <div class="cart__item__content__titlePrice">
@@ -41,8 +42,8 @@ if(produitEnregistreDansLocalStorage) {
 
         console.log(produitpanier)
 
-        //injection html dans la page panier
-        element.appendChild(produitpanier) 
+            //injection html dans la page panier
+            element.innerHTML += produitpanier; 
 
    
     }
@@ -78,16 +79,37 @@ if(produitEnregistreDansLocalStorage) {
         console.log(prixHTML);
 
         //Le code HTML du prix total à afficher
-        prixHTML.textContent = `Total : ${total/100 + " €"} `
+        prixHTML.textContent = `${total/100 + " €"} `
 
  
-        //Fonction qui modifie la quantité directement sur la page du panier et mets à jour le prixTotal
-    function updateQuantity(idProduit, valueQuantity){
-    json[idProduit].quantity = valueQuantity
-    json[idProduit].priceTotal = json[idProduit].quantity * json[idProduit].price
-    document.getElementById(`Total-${json[idProduit]._id}`).innerHTML = `${json[idProduit].total / 100} €`
-    localStorage.setItem("cart", JSON.stringify(json))
-}
+    //Création de la fonction panier
+    function items () {
+        let article = document.querySelector("#cart__items")
+        article = document.createElement('article');
+        article.classList.add("cart__item")
+        article.setAttribute('data-id', idProduit);
+        article = document.createElement('div');
+        article.classList.add("cart__item__img")
+        article.setAttribute('src', div);
+        article = document.createElement('div');
+        article.classList.add("cart__item__content")
+        article = document.createElement('div');
+        article.classList.add("cart__item__content__titlePrice")
+        article = document.createElement('h2');
+        article = document.createElement('p');
+        article = document.createElement('div');
+        article.classList.add("cart__item__content__settings")
+        article = document.createElement('div');
+        article.classList.add("cart__item__content__settings__quantity")
+        article = document.createElement('p');
+
+
+
+    }
+    console.log(items)
+
+
+    
     
 
 
@@ -106,6 +128,9 @@ if(produitEnregistreDansLocalStorage) {
         productorder.push(produitEnregistreDansLocalStorage[m].couleur)
         productorder.push(produitEnregistreDansLocalStorage[m].quantity)
         productorder.push(produitEnregistreDansLocalStorage[m].prix)
+        productorder.push(produitEnregistreDansLocalStorage[m].image)
+        productorder.push(produitEnregistreDansLocalStorage[m].alt)
+        
   
     };
     console.log(productorder)
