@@ -30,7 +30,7 @@ if(produitEnregistreDansLocalStorage) {
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
                       <p>Qté : </p>
-                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${produitEnregistreDansLocalStorage[j].quantity}">
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="1" onchange = "updatequantity(event)">
                     </div>
                     <div class="cart__item__content__settings__delete">
                       <p class="deleteItem">Supprimer</p>
@@ -83,32 +83,64 @@ if(produitEnregistreDansLocalStorage) {
 
  
     //Création de la fonction panier
-    function items () {
-        let article = document.querySelector("#cart__items")
-        article = document.createElement('article');
-        article.classList.add("cart__item")
-        article.setAttribute('data-id', idProduit);
-        article = document.createElement('div');
-        article.classList.add("cart__item__img")
-        article.setAttribute('src', div);
-        article = document.createElement('div');
-        article.classList.add("cart__item__content")
-        article = document.createElement('div');
-        article.classList.add("cart__item__content__titlePrice")
-        article = document.createElement('h2');
-        article = document.createElement('p');
-        article = document.createElement('div');
-        article.classList.add("cart__item__content__settings")
-        article = document.createElement('div');
-        article.classList.add("cart__item__content__settings__quantity")
-        article = document.createElement('p');
+    const cart = document.querySelector("#cart__items")
+    cart.innerHtml = document.write("<article class=\"cart__item\" data-id=\"{product-ID}\">\r\n                <div class=\"cart__item__img\">\r\n                  <img src=\"\" alt=\"\">\r\n                <\/div>\r\n                <div class=\"cart__item__content\">\r\n                  <div class=\"cart__item__content__titlePrice\">\r\n                    <h2>Nom du produit<\/h2>\r\n                    <p>42,00 \u20ac<\/p>\r\n                  <\/div>\r\n                  <div class=\"cart__item__content__settings\">\r\n                    <div class=\"cart__item__content__settings__quantity\">\r\n                      <p>Qt\u00e9 : <\/p>\r\n                      <input type=\"number\" class=\"itemQuantity\" name=\"itemQuantity\" min=\"1\" max=\"100\" value=\"42\">\r\n                    <\/div>\r\n                    <div class=\"cart__item__content__settings__delete\">\r\n                      <p class=\"deleteItem\">Supprimer<\/p>\r\n                    <\/div>\r\n                  <\/div>\r\n                <\/div>\r\n              <\/article>");
+
+    function updatequantity() {
+
+        const submit = document.querySelectorAll(".itemQuantity")
+        console.log(submit)
+        submit.forEach(item =>  { 
+
+        var idProduit = `${produitEnregistreDansLocalStorage.idProduit}`
+        console.log(idProduit)
+        el.dataset.id === idProduit;
+
+        var couleur = `${produitEnregistreDansLocalStorage.couleur}`
+        console.log(couleur)
+
+        var quantity = `${produitEnregistreDansLocalStorage.quantity}`
+        console.log(quantity)
 
 
 
+            //Si le panier comporte déjà au moins 1 article
+            const resultFind = produitEnregistreDansLocalStorage.find(
+                (el) => el.idProduit === idProduit && el.couleur === couleur);
+                //Si le produit commandé est déjà dans le panier
+                if (resultFind) {
+                    let newQuantite = document.querySelector("itemQuantity").value
+                    parseInt(quantity) + parseInt(resultFind.quantity);
+                    console.log(quantity)
+                    console.log(resultFind.quantity)
+                    resultFind.quantity = newQuantite;
+                    localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
+
+                }
+
+
+
+        })
     }
-    console.log(items)
+        
+
+    console.log(updatequantity)
 
 
+    const supprimer = document.querySelectorAll("deleteItem")
+    supprimer.forEach(item => item.addEventListener("click" , function(e) {
+        e.preventDefault
+        const el = document.querySelector('.cart__item');
+        var elt = el.closest
+        var idProduit = `${produitEnregistreDansLocalStorage.idProduit}`
+        console.log(idProduit)
+        el.dataset.id === idProduit;
+        console.log(el)
+        console.log(elt)
+        console.log(el.dataset.id)
+        console.log(supprimer)
+
+    }));
     
     
 
@@ -177,71 +209,87 @@ if(produitEnregistreDansLocalStorage) {
 
 
         function commandtoOrder() {
+            const supprimer = document.querySelector("#order")
+            const btn = ` <div class="cart__order__form__submit">
+                  <input type="button" value="Commander !" id="order">
+                </div>`
+
+            supprimer.innerHTML(btn)
+
+            supprimer.addEventListener("click", function (e) {
+                e.preventDefault
+                window.location.href="confirmation.html";
 
 
-            fetch("http://localhost:3000/api/products/order", product )
+                fetch("http://localhost:3000/api/products/order", product )
 
-                .then(response => response.json())
-                .then((infosCommande) => {
-                    console.log(infosCommande);
+                    .then(response => response.json())
+                    .then((infosCommande) => {
+                        console.log(infosCommande);
 
-                    //********************RECHERCHE DOM ******************//
+                        //********************RECHERCHE DOM ******************//
 
-                    const count = document.querySelector("#order")
-                    console.log(count)
-
-
-                    //********************FIN RECHERCHE D0M ******************//
+                        const count = document.querySelector("#order")
+                        console.log(count)
 
 
+                        //********************FIN RECHERCHE D0M ******************//
 
-                    //********************LOCAL STORAGE******************//
-                    //Récupérer le bouton ajouter au panier dans le DOM
 
-                    let article = document.getElementById("order") //nouveau sélecteur parent pour append le bouton (à faire en dur => HTML)
-                    article.addEventListener("click", function(e){
-                        e.preventDefault
 
-                        //************Stocker la récupération des valeurs du formulaire dans le local storage
+                        //********************LOCAL STORAGE******************//
+                        //Récupérer le bouton ajouter au panier dans le DOM
 
-                        let opt = {
-                            orderId : infosCommande.orderId,
-                            prixTotal : total
-                        }   
+                        let article = document.getElementById("order") //nouveau sélecteur parent pour append le bouton (à faire en dur => HTML)
+                        article.addEventListener("click", function(e){
+                            e.preventDefault
 
-                        console.log(opt);
-                        console.log(article);
+                            //************Stocker la récupération des valeurs du formulaire dans le local storage
 
-                        // Déclaration de la variable commandLocalStorage 
-                        //Son rôle est de retranscrire en javascript la valeur envoyée par "getItem("toOrder") en un objet réutilisable.
-                        let commandLocalStorage = [];
-                        commandLocalStorage.push(opt);
-                        localStorage.setItem("command", JSON.stringify(commandeLocalStorage));
-                        console.log(commandLocalStorage);
+                            let opt = {
+                                orderId : infosCommande.orderId,
+                                prixTotal : total
+                            }   
 
+                            console.log(opt);
+                            console.log(article);
+
+                            // Déclaration de la variable commandLocalStorage 
+                            //Son rôle est de retranscrire en javascript la valeur envoyée par "getItem("toOrder") en un objet réutilisable.
+                            let commandLocalStorage = [];
+                            commandLocalStorage.push(opt);
+                            localStorage.setItem("command", JSON.stringify(commandeLocalStorage));
+                            console.log(commandLocalStorage);
+
+                        })
+
+
+                        //********************FIN LOCAL STORAGE******************//
                     })
 
-
-                    //********************FIN LOCAL STORAGE******************//
-                })
-
-                //********************FIN DU THEN ******************//
+                    //********************FIN DU THEN ******************//
 
 
-            .catch((error) => {
-                alert("Une erreur est survenue. Nous allons corriger le problème très prochainement : " + error.message) //Ici, je rajoute le error.message pour avoir une indication sur le problème
+
+                    .catch((error) => {
+                        alert("Une erreur est survenue. Nous allons corriger le problème très prochainement : " + error.message) //Ici, je rajoute le error.message pour avoir une indication sur le problème
+                    })
+                
             })
+
+        commandtoOrder();
+
+
         }
 
-    commandtoOrder();
-
-    }
+     }
 
 
 } else {
     produitEnregistreDansLocalStorage === null || produitEnregistreDansLocalStorage == 0 
     //si le panier est vide : afficher le panier vide
     console.log("je suis vide");
+    const element = document.querySelector("#cart__items")
     const paniervide = 
         `<div id="panier-vide">
             <div>Le panier est vide</div>  

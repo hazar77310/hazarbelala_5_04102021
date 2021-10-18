@@ -60,6 +60,7 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
 
             const qtyButton = document.getElementById("quantity") //on crée une variable qui pointe sur l'élement qui contient la quantité...
 
+
                 let optionsProduit = {
                     nom: kanap.name,
                     idProduit: idConfig,
@@ -83,6 +84,7 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
                 console.log(produitEnregistreDansLocalStorage);
 
             }
+            
         })
 
         //********************FIN LOCAL STORAGE******************//

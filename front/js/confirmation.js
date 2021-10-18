@@ -10,16 +10,9 @@ console.log(`total: ${total}`);
 //Structure HTML de la page de confirmation
 
 //Selection dans le DOM pour le positionnement
-const element = document.querySelector("recapitulatif-commande");
+const element = document.querySelector(".confirmation");
 const confirmcmd = `
-	<h1>Récapitulatif de votre commande</h1> 
-
-        <div class="recap">
-            <p>Merci pour votre commande</p>
-            <p>Votre commande numéro : ${responseid} a bien été pris en compte</p>
-            <p>Le montant de votre commande est de :  €</p>
-            <p class="gras">Au plaisir de vous revoir</p>
-        </div> 
+	<p>Commande validée ! <br>Votre numéro de commande est : <span id="orderId">${commandLocalStorage.orderId}</span></p>
     `
 console.log(confirmcmd)
 element.innerHTML = confirmcmd;
