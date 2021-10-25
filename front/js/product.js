@@ -57,7 +57,7 @@ fetch(`http://localhost:3000/api/products/${idConfig}`) //Forcément, on change 
 
             // Déclaration de la variable produitEnregistreDansLocalStorage. 
             //Son rôle est de retranscrire en javascript la valeur envoyée par "getItem("produit") en un objet réutilisable.
-            let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem("#produit"));
+            let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem("produit"));
             console.log(produitEnregistreDansLocalStorage);
 
 
